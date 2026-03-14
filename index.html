@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Universe Under Construction</title>
+
+<style>
+
+body{
+margin:0;
+overflow:hidden;
+background:black;
+font-family:monospace;
+color:white;
+}
+
+canvas{
+display:block;
+}
+
+#header{
+position:absolute;
+top:25px;
+left:50%;
+transform:translateX(-50%);
+text-align:center;
+}
+
+#title{
+font-size:42px;
+letter-spacing:3px;
+}
+
+#subtitle{
+opacity:0.8;
+}
+
+#terminal{
+position:absolute;
+bottom:20px;
+left:20px;
+background:rgba(0,0,0,0.7);
+border:1px solid #00ff88;
+color:#00ff88;
+padding:15px;
+width:280px;
+font-size:14px;
+}
+
+/* SOCIAL ICONS */
+#socials{
+position:absolute;
+right:20px;
+bottom:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+z-index:10;
+}
+
+#socials a{
+display:flex;
+align-items:center;
+gap:8px;
+color:white;
+text-decoration:none;
+font-size:16px;
+transition:0.3s;
+}
+
+#socials a:hover{
+color:#00ffff;
+transform:scale(1.1);
+}
+
+#socials img{
+width:24px;
+height:24px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="header">
+<div id="title">🚧 SITE UNDER CONSTRUCTION</div>
+<div id="subtitle">Prashant Sharma is building something awesome.</div>
+</div>
+
+<div id="terminal"></div>
+
+<!-- SOCIAL ICONS -->
+<div id="socials">
+
+<a href="https://instagram.com/sharmadprashant" target="_blank">
+<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+Instagram
+</a>
+
+<a href="https://youtube.com/@solomacher" target="_blank">
+<img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+YouTube
+</a>
+
+<a href="mailto:sharmadprashant@gmail.com">
+<img src="https://cdn-icons-png.flaticon.com/512/732/732200.png">
+Email
+</a>
+
+</div>
+
+<canvas id="space"></canvas>
+
+<script>
+
+const canvas=document.getElementById("space");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+const center={x:canvas.width/2,y:canvas.height/2};
+
+let galaxy=[];
+let stars=[];
+let comets=[];
+let player=null;
+
+let warp=false;
+
+/* GALAXY */
+for(let i=0;i<700;i++){
+
+let angle=Math.random()*Math.PI*2;
+let radius=Math.random()*600;
+
+galaxy.push({
+angle:angle,
+radius:radius,
+size:Math.random()*2
+});
+
+}
+
+const sun={x:center.x,y:center.y};
+
+const planets=[
+{radius:140,size:8,speed:0.01,angle:0,color:"cyan"},
+{radius:220,size:10,speed:0.007,angle:1,color:"orange"},
+{radius:300,size:14,speed:0.005,angle:3,color:"lime"},
+{radius:380,size:18,speed:0.004,angle:2,color:"purple",ring:true}
+];
+
+const blackHole={
+x:center.x+450,
+y:center.y-200,
+mass:9000
+};
+
+/* CLICK STARS */
+canvas.addEventListener("click",e=>{
+
+for(let i=0;i<5;i++){
+
+stars.push({
+x:e.clientX,
+y:e.clientY,
+vx:(Math.random()-0.5)*5,
+vy:(Math.random()-0.5)*5,
+trail:[]
+});
+
+}
+
+});
+
+/* REMOVE SPACESHIP SYSTEM COMPLETELY */
+/* (ships array, spawnShip, drawShips, etc. removed) */
+
+function spawnComet(){
+
+comets.push({
+x:-50,
+y:Math.random()*canvas.height,
+vx:8,
+vy:2,
+tail:[]
+});
+
+}
+
+setInterval(spawnComet,4000);
+
+function updatePlanets(){
+planets.forEach(p=>{
+p.angle+=p.speed;
+});
+}
+
+function updateStars(){
+
+stars.forEach((s,i)=>{
+
+let dx=blackHole.x-s.x;
+let dy=blackHole.y-s.y;
+
+let dist=Math.sqrt(dx*dx+dy*dy);
+
+let force=blackHole.mass/(dist*dist);
+
+s.vx+=dx/dist*force;
+s.vy+=dy/dist*force;
+
+s.x+=s.vx;
+s.y+=s.vy;
+
+s.trail.push({x:s.x,y:s.y});
+
+if(s.trail.length>12)s.trail.shift();
+
+if(dist<10)stars.splice(i,1);
+
+});
+
+}
+
+function updateComets(){
+
+comets.forEach((c,i)=>{
+
+c.x+=c.vx;
+c.y+=c.vy;
+
+c.tail.push({x:c.x,y:c.y});
+
+if(c.tail.length>20)c.tail.shift();
+
+if(c.x>canvas.width+100)comets.splice(i,1);
+
+});
+
+}
+
+function drawGalaxy(){
+
+galaxy.forEach(s=>{
+
+let angle=s.angle+Date.now()*0.00005;
+
+let x=center.x+Math.cos(angle)*s.radius;
+let y=center.y+Math.sin(angle)*s.radius;
+
+ctx.fillStyle="white";
+ctx.fillRect(x,y,s.size,s.size);
+
+});
+
+}
+
+function drawSun(){
+
+let g=ctx.createRadialGradient(
+sun.x,sun.y,10,
+sun.x,sun.y,90
+);
+
+g.addColorStop(0,"yellow");
+g.addColorStop(1,"orange");
+
+ctx.beginPath();
+ctx.arc(sun.x,sun.y,90,0,Math.PI*2);
+ctx.fillStyle=g;
+ctx.fill();
+
+}
+
+function drawPlanets(){
+
+planets.forEach(p=>{
+
+let x=center.x+Math.cos(p.angle)*p.radius;
+let y=center.y+Math.sin(p.angle)*p.radius;
+
+ctx.beginPath();
+ctx.arc(x,y,p.size,0,Math.PI*2);
+ctx.fillStyle=p.color;
+ctx.fill();
+
+if(p.ring){
+ctx.strokeStyle="white";
+ctx.beginPath();
+ctx.ellipse(x,y,p.size*2,p.size,0,0,Math.PI*2);
+ctx.stroke();
+}
+
+});
+
+}
+
+function drawBlackHole(){
+
+let g=ctx.createRadialGradient(
+blackHole.x,blackHole.y,5,
+blackHole.x,blackHole.y,40
+);
+
+g.addColorStop(0,"white");
+g.addColorStop(0.3,"purple");
+g.addColorStop(1,"black");
+
+ctx.beginPath();
+ctx.arc(blackHole.x,blackHole.y,40,0,Math.PI*2);
+ctx.fillStyle=g;
+ctx.fill();
+
+}
+
+function drawStars(){
+
+stars.forEach(s=>{
+
+for(let i=0;i<s.trail.length;i++){
+
+let t=s.trail[i];
+
+ctx.beginPath();
+ctx.arc(t.x,t.y,2,0,Math.PI*2);
+
+ctx.fillStyle="rgba(255,255,255,"+(i/s.trail.length)+")";
+ctx.fill();
+
+}
+
+});
+
+}
+
+function drawComets(){
+
+comets.forEach(c=>{
+
+for(let i=0;i<c.tail.length;i++){
+
+let t=c.tail[i];
+
+ctx.beginPath();
+ctx.arc(t.x,t.y,2,0,Math.PI*2);
+
+ctx.fillStyle="rgba(255,255,255,"+(i/c.tail.length)+")";
+ctx.fill();
+
+}
+
+});
+
+}
+
+function loop(){
+
+ctx.fillStyle="black";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+drawGalaxy();
+
+updatePlanets();
+updateStars();
+updateComets();
+
+drawSun();
+drawPlanets();
+drawBlackHole();
+drawStars();
+drawComets();
+
+requestAnimationFrame(loop);
+
+}
+
+loop();
+
+/* TERMINAL (UNCHANGED) */
+const terminalLines=[
+"> booting universe engine...",
+"> generating galaxy...",
+"> spawning planets...",
+"> initializing black hole...",
+"> building prashant-sharma.com.np...",
+"> progress: ███████░░░ 70%"
+];
+
+let i=0;
+
+function typeTerminal(){
+
+if(i<terminalLines.length){
+
+document.getElementById("terminal").innerHTML+=terminalLines[i]+"<br>";
+i++;
+
+setTimeout(typeTerminal,800);
+
+}
+
+}
+
+typeTerminal();
+
+</script>
+
+</body>
+</html>
