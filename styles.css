@@ -1,0 +1,262 @@
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background:white ;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* HERO SECTION (image + spacing) */
+.hero {
+  display: flex;
+  justify-content: center;
+  padding: 60px;
+}
+
+/* PROFILE IMAGE (circle + crop + zoom) */
+.hero img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  transform: scale(1.4); /* zoom crop effect */
+}
+
+/* TEXT SECTION */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  max-width: 500px;
+  padding: 60px;
+}
+
+/* TEXT STYLING */
+.container p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.container h1 {
+  margin: 0;
+  font-size: 40px;
+}
+
+.container h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+/* BUTTON */
+button {
+  display: inline-block;
+  padding: 14px 28px;
+  background-color: #111;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background-color: #0096FF;
+  transform: translateY(-2px);
+}
+
+.hero-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  min-height: 80vh;
+}
+
+/* NAVBAR */
+nav {
+  padding: 20px 40px;
+  background: cyan;
+  margin: 0;
+}
+
+nav ul {
+  list-style: none;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 0;
+  padding: 0;
+}
+
+/* RIGHT SIDE LINKS */
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+nav a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+/* Social Icons */
+.socials {
+  margin-top: 10px;
+
+  display: flex;
+  gap: 20px;
+}
+
+.socials a {
+  font-size: 32px;
+
+  color: black;
+
+  transition: 0.3s ease;
+}
+
+/* GITHUB */
+.socials a:nth-child(1):hover {
+  color: #222;
+  transform: translateY(-4px);
+}
+
+
+/* YOUTUBE */
+.socials a:nth-child(2):hover {
+  color: red;
+  transform: translateY(-4px);
+}
+
+/* LINKEDIN */
+.socials a:nth-child(3):hover {
+  color: #0077B5;
+  transform: translateY(-4px);
+}
+
+.socials a:nth-child(4):hover {
+  background: linear-gradient(
+    45deg,
+    #f09433,
+    #e6683c,
+    #dc2743,
+    #cc2366,
+    #bc1888
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  transform: translateY(-4px);
+}
+.hero img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  transition: 0.4s ease;
+  transform: scale(1.3);
+}
+
+.hero img:hover {
+  transform: scale(1.5);
+  filter: brightness(60%) blur(1px);
+}
+
+/* FULL PAGE CENTER LAYOUT */
+.contact {
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  position: relative;
+  padding: 20px;
+}
+/* BOX */
+.contact-box {
+  text-align: center;
+  max-width: 600px;
+  transform: scale(1.5);
+  margin-top: -300px;
+}
+
+/* TITLE */
+.contact-box h1 {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+/* TEXT */
+.contact-box p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+/* WHATSAPP BUTTON (MAIN CTA) */
+.cta-button {
+  display: inline-block;
+
+  padding: 16px 28px;
+  background: #25D366;
+  color: white;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  border-radius: 12px;
+  text-decoration: none;
+
+  transition: 0.3s ease;
+}
+
+.cta-button:hover {
+  background: #1ebe5d;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* SOCIALS */
+.socials {
+  margin-top: 30px;
+
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.socials a {
+  font-size: 28px;
+  color: black;
+
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #f2f2f2;
+
+  transition: 0.3s ease;
+}
+
+.socials a:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
