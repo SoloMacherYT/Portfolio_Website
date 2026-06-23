@@ -28,4 +28,4 @@ Learned how to iterate on design ideas using AI assistance
 Improved confidence in building and publishing small projects
 Status
 
-🚧 Basic version completed — future improvements may include responsiveness and better UI structureg
+🚧 Basic version completed — future improvements may include responsiveness and better UI structure
